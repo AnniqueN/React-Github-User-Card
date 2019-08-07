@@ -1,26 +1,81 @@
 import React from 'react';
-import axios from 'axios'
-import Card from './components/Card'
-import 'semantic-ui-css/semantic.min.css'; 
+import axios from 'axios';
+import { Route, Switch } from 'react-router-dom';
+import './App.css';
+
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+import NavBar from './components/NavBar';
+import UserCard from './components/UserCard';
+import FollowerContainer from './components/FollowerContainer';
 
 class App extends React.Component {
   constructor() {
-    super()
+    super();
+
     this.state = {
-      data: [],
-      followers: []
+      user: null,
+      followers: [],
+      username: '',
     };
-
   }
+
   componentDidMount() {
-    axios.get(`https://api.github.com/users/AnniqueN`)
-      .then(res => this.setState(res))
+    this.getUser('AnniqueN');
+    this.getFollowers('AnniqueN');
   }
+
+  getUser = async username => {
+    return await axios
+      .get(`https://api.github.com/users/${username}`)
+      .then(user => {
+        this.setState({ user: user.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  getFollowers = async username => {
+    return await axios
+      .get(`https://api.github.com/users/${username}/followers`)
+      .then(followers => {
+        this.setState({ followers: followers.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
+    if (!this.state.user) {
+      return <LinearProgress />;
+    }
 
-    return (<Card data={this.state.data} />)
-    
-
+    return (
+      <>
+        <CssBaseline />
+        <NavBar />
+        <Container maxWidth='lg'>
+          <Switch>
+            <Route
+              exact
+              path='/'
+              render={() => <UserCard user={this.state.user} />}
+            />
+            <Route
+              exact
+              path='/followers'
+              render={() => (
+                <FollowerContainer followers={this.state.followers} />
+              )}
+            />
+          </Switch>
+        </Container>
+      </>
+    );
   }
 }
 
