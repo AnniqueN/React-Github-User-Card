@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'
 import Card from './components/Card'
 import 'semantic-ui-css/semantic.min.css'; 
+
 class App extends React.Component {
   constructor() {
     super()
@@ -18,6 +19,7 @@ class App extends React.Component {
   render() {
 
     return (<Card data={this.state.data} />)
+    
 
   }
 }

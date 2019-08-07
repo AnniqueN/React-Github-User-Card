@@ -2,9 +2,10 @@ import React from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import { Segment, Card, Image } from 'semantic-ui-react'
 import CardContent from './CardContent'
+
 const Cards = props => {
     console.log(props)
-    return (<Segment raised>
+    return (<Segment raised key = {props.data.id}>
         <Card>
             <Image src={props.data.avatar_url} />
             <Card.Content>

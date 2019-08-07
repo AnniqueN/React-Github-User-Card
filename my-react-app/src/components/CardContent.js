@@ -2,6 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import 'semantic-ui-css/semantic.min.css'
 import { Segment, Card, Image } from 'semantic-ui-react'
+
+
 class CardContent extends React.Component {
     constructor() {
         super()
@@ -21,7 +23,7 @@ class CardContent extends React.Component {
             this.state.data.map(e => {
 
                 return (
-                    < Segment raised >
+                    < Segment raised key = {e.id}>
 
                         <Card>
                             <Image src={e.avatar_url} />
